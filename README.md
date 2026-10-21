@@ -11,7 +11,7 @@ npm run dev
 
 Open the URL printed by Vite. `npm run build` creates the production files in `dist`.
 
-The initial page supports local file selection, date ranges, weekly leave, manual holiday days or holiday file selection, office hours, and a tiffin break. Prepare report validates the settings and opens a summary with a JSON settings export.
+The initial page supports local file selection, date ranges, weekly leave, manual holiday days or holiday file selection, office hours, and a tiffin break. Report validates the settings and navigates to `#/report`, a dedicated summary page with a JSON settings export. Back to setup preserves the form and selected files. Browser Back/Forward navigation is supported. Opening or refreshing the report URL without a selected attendance file shows a setup prompt. Hash navigation works in a Hostinger subfolder without rewrite rules.
 
 Files are held in browser memory only. File contents are not parsed yet; employee attendance calculations, salary calculations, backend storage, and report generation are future work. Refreshing the page resets the form.
 
