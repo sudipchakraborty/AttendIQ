@@ -1,0 +1,505 @@
+﻿<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>User</Author>
+  <LastAuthor>sudip chakraborty</LastAuthor>
+  <LastPrinted>2011-03-10T11:58:34Z</LastPrinted>
+  <Created>2011-03-10T11:52:15Z</Created>
+  <LastSaved>2026-10-21T12:39:33Z</LastSaved>
+  <Company>chingzou@gmail.com</Company>
+  <Version>16.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>11865</WindowHeight>
+  <WindowWidth>28800</WindowWidth>
+  <WindowTopX>32767</WindowTopX>
+  <WindowTopY>32767</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Center"/>
+   <Borders/>
+   <Font ss:FontName="calibri" x:CharSet="134" ss:Size="12"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="m2240339270676">
+   <Alignment ss:Horizontal="Justify" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="calibri" x:CharSet="134" ss:Size="10.5" ss:Color="#FF0000"/>
+   <Interior ss:Color="#C0C0C0" ss:Pattern="Solid"/>
+   <NumberFormat/>
+   <Protection ss:Protected="0"/>
+  </Style>
+  <Style ss:ID="m2240339270696">
+   <Alignment ss:Horizontal="Justify" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="calibri" x:CharSet="134" ss:Size="10.5"/>
+   <Interior ss:Color="#C0C0C0" ss:Pattern="Solid"/>
+   <NumberFormat/>
+   <Protection ss:Protected="0"/>
+  </Style>
+  <Style ss:ID="m2240339270716">
+   <Alignment ss:Horizontal="Justify" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="calibri" x:CharSet="134" ss:Size="10.5"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection ss:Protected="0"/>
+  </Style>
+  <Style ss:ID="m2240339270736">
+   <Alignment ss:Horizontal="Justify" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="calibri" x:CharSet="134" ss:Size="10.5"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection ss:Protected="0"/>
+  </Style>
+  <Style ss:ID="m2240339270756">
+   <Alignment ss:Horizontal="Justify" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="calibri" x:CharSet="134" ss:Size="10.5"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection ss:Protected="0"/>
+  </Style>
+  <Style ss:ID="s63">
+   <Alignment ss:Vertical="Center" ss:WrapText="1"/>
+   <Font ss:FontName="calibri" x:CharSet="134"/>
+  </Style>
+  <Style ss:ID="s64">
+   <Alignment ss:Horizontal="Justify" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="calibri" x:CharSet="134" ss:Size="10.5"/>
+   <Interior ss:Color="#C0C0C0" ss:Pattern="Solid"/>
+   <NumberFormat/>
+   <Protection ss:Protected="0"/>
+  </Style>
+  <Style ss:ID="s77">
+   <Alignment ss:Horizontal="Justify" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="calibri" x:CharSet="134" ss:Size="10.5" ss:Color="#FF0000"/>
+   <Interior ss:Color="#C0C0C0" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="Short Time"/>
+   <Protection ss:Protected="0"/>
+  </Style>
+  <Style ss:ID="s78">
+   <Alignment ss:Horizontal="Justify" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Times New Roman" x:Family="Roman" ss:Size="10.5"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection ss:Protected="0"/>
+  </Style>
+  <Style ss:ID="s79">
+   <Alignment ss:Horizontal="Justify" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="calibri" x:CharSet="134" ss:Size="10.5"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection ss:Protected="0"/>
+  </Style>
+  <Style ss:ID="s86">
+   <Alignment ss:Horizontal="Justify" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Times New Roman" x:Family="Roman" ss:Size="10.5"
+    ss:Color="#FF0000"/>
+   <Interior/>
+   <NumberFormat ss:Format="Short Time"/>
+   <Protection ss:Protected="0"/>
+  </Style>
+  <Style ss:ID="s87">
+   <Alignment ss:Horizontal="Justify" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Times New Roman" x:Family="Roman" ss:Size="10.5"
+    ss:Color="#FF0000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection ss:Protected="0"/>
+  </Style>
+  <Style ss:ID="s88">
+   <NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="s90">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Font ss:FontName="calibri" x:CharSet="134" ss:Size="12" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s91">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="calibri" x:CharSet="134" ss:Size="12" ss:Bold="1"/>
+   <Interior ss:Color="#C0C0C0" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s92">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <NumberFormat ss:Format="Short Date"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Edit Shift">
+  <Table ss:ExpandedColumnCount="10" ss:ExpandedRowCount="13" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="14.25">
+   <Column ss:Index="2" ss:AutoFitWidth="0" ss:Width="43.5"/>
+   <Column ss:AutoFitWidth="0" ss:Width="47.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="36"/>
+   <Column ss:AutoFitWidth="0" ss:Width="44.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="39"/>
+   <Column ss:AutoFitWidth="0" ss:Width="30.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="41.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="47.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="45.75"/>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:MergeAcross="9" ss:MergeDown="1" ss:StyleID="s63"><Data
+      ss:Type="String">TipsThe red part of the editable region; Shift name (5 characters or 10 English words in the less); type (0, normal attendance; 1, overtime)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0"/>
+   <Row ss:Index="4" ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s64"><Data ss:Type="String">No1</Data></Cell>
+    <Cell ss:StyleID="s64"><Data ss:Type="String">Name </Data></Cell>
+    <Cell ss:MergeAcross="4" ss:StyleID="m2240339270676"><Data ss:Type="String">Shift1 </Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m2240339270696"><Data ss:Type="String">CutoffTime:</Data></Cell>
+    <Cell ss:StyleID="s77"><Data ss:Type="DateTime">1899-12-31T00:00:00.000</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s78"/>
+    <Cell ss:MergeAcross="2" ss:StyleID="m2240339270716"><Data ss:Type="String">Section1</Data></Cell>
+    <Cell ss:MergeAcross="2" ss:StyleID="m2240339270736"><Data ss:Type="String">Section2</Data></Cell>
+    <Cell ss:MergeAcross="2" ss:StyleID="m2240339270756"><Data ss:Type="String">Section3</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s78"/>
+    <Cell ss:StyleID="s79"><Data ss:Type="String">IN</Data></Cell>
+    <Cell ss:StyleID="s79"><Data ss:Type="String">OUT</Data></Cell>
+    <Cell ss:StyleID="s79"><Data ss:Type="String">Type</Data></Cell>
+    <Cell ss:StyleID="s79"><Data ss:Type="String">IN</Data></Cell>
+    <Cell ss:StyleID="s79"><Data ss:Type="String">OUT</Data></Cell>
+    <Cell ss:StyleID="s79"><Data ss:Type="String">Type</Data></Cell>
+    <Cell ss:StyleID="s79"><Data ss:Type="String">IN</Data></Cell>
+    <Cell ss:StyleID="s79"><Data ss:Type="String">OUT</Data></Cell>
+    <Cell ss:StyleID="s79"><Data ss:Type="String">Type</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s79"><Data ss:Type="String">MON</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T08:30:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T12:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T13:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T17:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T18:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s79"><Data ss:Type="String">TUE</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T08:30:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T12:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T13:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T17:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T18:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s79"><Data ss:Type="String">WED</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T08:30:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T12:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T13:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T17:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T18:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s79"><Data ss:Type="String">THU</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T08:30:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T12:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T13:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T17:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T18:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s79"><Data ss:Type="String">FRI</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T08:30:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T12:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T13:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T17:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T18:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s79"><Data ss:Type="String">SAT</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T08:30:00.000</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="DateTime">1899-12-31T12:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">0</Data></Cell>
+    <Cell ss:StyleID="s86"/>
+    <Cell ss:StyleID="s86"/>
+    <Cell ss:StyleID="s87"/>
+    <Cell ss:StyleID="s86"/>
+    <Cell ss:StyleID="s86"/>
+    <Cell ss:StyleID="s87"/>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s79"><Data ss:Type="String">SUN</Data></Cell>
+    <Cell ss:StyleID="s86"/>
+    <Cell ss:StyleID="s86"/>
+    <Cell ss:StyleID="s87"/>
+    <Cell ss:StyleID="s86"/>
+    <Cell ss:StyleID="s86"/>
+    <Cell ss:StyleID="s87"/>
+    <Cell ss:StyleID="s86"/>
+    <Cell ss:StyleID="s86"/>
+    <Cell ss:StyleID="s87"/>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Unsynced/>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>200</HorizontalResolution>
+    <VerticalResolution>200</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>18</ActiveRow>
+     <ActiveCol>12</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+  <DataValidation xmlns="urn:schemas-microsoft-com:office:excel">
+   <Range>R4C3:R4C7</Range>
+   <Type>TextLength</Type>
+   <Qualifier>LessOrEqual</Qualifier>
+   <Value>10</Value>
+  </DataValidation>
+  <DataValidation xmlns="urn:schemas-microsoft-com:office:excel">
+   <Range>R7C4:R13C4,R7C10:R13C10</Range>
+   <Type>Whole</Type>
+   <Min>0</Min>
+   <Max>1</Max>
+  </DataValidation>
+  <DataValidation xmlns="urn:schemas-microsoft-com:office:excel">
+   <Range>R7C2:R13C3,R7C5:R13C6,R7C8:R13C9,R4C10</Range>
+   <Type>Time</Type>
+   <Min>0</Min>
+   <Max>0.999305555555556</Max>
+  </DataValidation>
+ </Worksheet>
+ <Worksheet ss:Name="Holidays">
+  <Table ss:ExpandedColumnCount="4" ss:ExpandedRowCount="32" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultColumnWidth="54" ss:DefaultRowHeight="14.25">
+   <Column ss:Index="2" ss:AutoFitWidth="0" ss:Width="76.5"/>
+   <Column ss:StyleID="s88" ss:AutoFitWidth="0" ss:Width="80.25"/>
+   <Column ss:StyleID="s88" ss:AutoFitWidth="0" ss:Width="68.25"/>
+   <Row ss:AutoFitHeight="0" ss:Height="33">
+    <Cell ss:MergeAcross="3" ss:StyleID="s90"><Data ss:Type="String">Holidays</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s91"><Data ss:Type="String">index</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String">name</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String">from</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String">to</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">New Year</Data></Cell>
+    <Cell ss:StyleID="s92"><Data ss:Type="DateTime">2016-01-01T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s92"><Data ss:Type="DateTime">2016-01-01T00:00:00.000</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">Christmas</Data></Cell>
+    <Cell ss:StyleID="s92"><Data ss:Type="DateTime">2016-12-25T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s92"><Data ss:Type="DateTime">2016-12-26T00:00:00.000</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">9</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">11</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">12</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">13</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">14</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">15</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">16</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">17</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">18</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">19</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">20</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">21</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">22</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">23</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">24</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">25</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">26</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">27</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">28</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">29</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="Number">30</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Unsynced/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>2</ActiveRow>
+     <ActiveCol>1</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+  <DataValidation xmlns="urn:schemas-microsoft-com:office:excel">
+   <Range>C2</Range>
+   <Type>TextLength</Type>
+   <Qualifier>Less</Qualifier>
+   <Value>16</Value>
+  </DataValidation>
+ </Worksheet>
+</Workbook>
