@@ -28,7 +28,7 @@ This workflow is for Hostinger Web or Cloud hosting with FTP access, rather than
    | `FTP_USERNAME` | Your site's FTP username |
    | `FTP_PASSWORD` | Your site's FTP password |
 
-3. On the **Variables** tab, add `FTP_SERVER_DIR`. Set it to the target website directory as seen by that FTP account, with a trailing slash. Common examples are `/public_html/` for a domain root or `/public_html/attendiq/` for a subfolder. If the FTP account is already restricted to the website directory, use `./`. Confirm the path in an FTP client; do not point this at another site's directory.
+3. Add `FTP_SERVER_DIR` on the **Variables** tab (or as a repository secret). A variable takes precedence if both exist. Set it to the target website directory as seen by that FTP account, with a trailing slash. Common examples are `/public_html/` for a domain root or `/public_html/attendiq/` for a subfolder. If the FTP account is already restricted to the website directory, use `./`. Confirm the path in an FTP client; do not point this at another site's directory.
 4. Commit and push the project, including `package-lock.json` and `.github/workflows/deploy.yml`, to `main`. Every push to `main` deploys automatically. You can also open **Actions → Deploy AttendIQ to Hostinger → Run workflow** and select `main`.
 5. After the workflow succeeds, visit your domain (or chosen subfolder) and check that the page loads. A local build alone does not verify a live deployment.
 
