@@ -8,7 +8,7 @@ export default function ReportPage({ settings, onBack, onExport }) {
     ['Attendance file', settings.attendanceFile || 'Not selected'],
     ['Salary list', settings.salaryFile || 'Not selected'],
     ['Weekly leave', settings.weeklyLeave.join(', ') || 'None'],
-    ['Monthly holidays', Array.isArray(settings.holidays) ? settings.holidays.join(', ') || 'None' : settings.holidays || 'None'],
+    ['Monthly holidays', Array.isArray(settings.holidays) ? settings.holidays.map(holiday => typeof holiday === 'string' ? holiday : `${holiday.date.split('-').reverse().join('.')}${holiday.purpose ? ` - ${holiday.purpose}` : ''}`).join(', ') || 'None' : settings.holidays || 'None'],
     ['Office start', settings.officeStart],
     ['Office end', settings.officeEnd],
     ['Tiffin break', `${settings.breakMinutes} minutes`],
