@@ -29,6 +29,15 @@ export function parseSalaries(text) {
   return rows;
 }
 
+export function parseHolidays(text) {
+  return text.replace(/^\uFEFF/, '').trim().split(/\r?\n/).filter(line => line.trim() && !/^date(?:[,\t]|$)/i.test(line.trim())).map((line, index) => {
+    const match = line.trim().match(/^(\d{4}-\d{2}-\d{2})(?:[,\t]\s*(.*))?$/);
+    const parsed = match && new Date(`${match[1]}T00:00:00Z`);
+    if (!match || !Number.isFinite(+parsed) || parsed.toISOString().slice(0, 10) !== match[1]) throw new Error(`Invalid holiday row ${index + 1}. Use YYYY-MM-DD, optional purpose, one date per line.`);
+    return { date: match[1], purpose: match[2] || '' };
+  });
+}
+
 export function matchEmployees(punches, salaries) {
   const people = new Map();
   const matched = new Set();
@@ -75,7 +84,29 @@ export function calculateEmployeeReport(employee, punches, from, to, settings = 
     byDay.get(punch.date).add(punch.time);
   }
   const holidays = new Set(Array.isArray(settings.holidays) ? settings.holidays.map(row => row.date) : []);
+  const officeSeconds = time => seconds(`${time}:00`);
+  const cutoffSeconds = officeSeconds(settings.officeEnd || '18:30');
+  const dailySeconds = cutoffSeconds - officeSeconds(settings.officeStart || '09:30') - Number(settings.breakMinutes ?? 30) * 60;
+  if (!Number.isFinite(dailySeconds) || dailySeconds <= 0) throw new Error('Office hours minus tiffin break must leave positive working hours.');
+  const rates = new Map();
+  const monthRate = date => {
+    const month = date.slice(0, 7);
+    if (!rates.has(month)) {
+      const [year, number] = month.split('-').map(Number);
+      let days = 0;
+      for (let day = 1; day <= daysInMonth(year, number); day++) {
+        const cursor = new Date(Date.UTC(year, number - 1, day));
+        const weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][cursor.getUTCDay()];
+        if (!holidays.has(isoDate(cursor)) && !(settings.weeklyLeave || []).includes(weekday)) days++;
+      }
+      if (!days) throw new Error(`No scheduled working days in ${month}. Adjust weekly leave or holidays.`);
+      const scheduledSeconds = days * dailySeconds;
+      rates.set(month, { month, workingDays: days, scheduledSeconds, scheduledHours: duration(scheduledSeconds), hourlyRate: employee.monthlySalary === null ? null : employee.monthlySalary * 3600 / scheduledSeconds });
+    }
+    return rates.get(month);
+  };
   const rows = [];
+  const adjustments = new Map();
   let totalCents = 0, totalSeconds = 0, incompleteDays = 0, missingDays = 0;
   for (const cursor = new Date(first); cursor <= last; cursor.setUTCDate(cursor.getUTCDate() + 1)) {
     const date = isoDate(cursor), times = [...(byDay.get(date) || [])].sort();
@@ -85,22 +116,27 @@ export function calculateEmployeeReport(employee, punches, from, to, settings = 
     if (times.length % 2) { status = 'Incomplete punches'; incompleteDays++; }
     else if (times.length >= 2) {
       workedSeconds = 0;
-      for (let i = 0; i < times.length; i += 2) workedSeconds += seconds(times[i + 1]) - seconds(times[i]);
+      for (let i = 0; i < times.length; i += 2) workedSeconds += Math.max(0, Math.min(seconds(times[i + 1]), cutoffSeconds) - Math.min(seconds(times[i]), cutoffSeconds));
       if (times.length === 2) workedSeconds = Math.max(0, workedSeconds - Number(settings.breakMinutes || 0) * 60);
       status = times.length === 2 ? 'Configured break deducted' : times.length > 4 ? 'Multiple breaks' : 'Complete';
       totalSeconds += workedSeconds;
     }
-    // Allocate integer cents by calendar day so a full month always totals exactly its salary.
-    let salary = null;
-    if (employee.monthlySalary !== null) {
-      const cents = Math.round(employee.monthlySalary * 100), count = daysInMonth(cursor.getUTCFullYear(), cursor.getUTCMonth() + 1);
-      const allocation = Math.floor(cents / count) + (cursor.getUTCDate() <= cents % count ? 1 : 0);
-      totalCents += allocation;
-      salary = allocation / 100;
-    }
+    const rate = monthRate(date);
+    const month = date.slice(0, 7);
+    if (!adjustments.has(month)) adjustments.set(month, { month, dailyRate: employee.monthlySalary === null ? null : Math.round(employee.monthlySalary * 100 / daysInMonth(cursor.getUTCFullYear(), cursor.getUTCMonth() + 1)) / 100, sundayCount: 0, leaveCount: 0 });
+    const adjustment = adjustments.get(month);
+    if (cursor.getUTCDay() === 0) adjustment.sundayCount++;
+    else if (holidays.has(date)) adjustment.leaveCount++;
+
+    const salary = employee.monthlySalary === null ? null : Math.round(employee.monthlySalary * 100 * (workedSeconds || 0) / rate.scheduledSeconds) / 100;
+    if (salary !== null) totalCents += Math.round(salary * 100);
     rows.push({ date, name: employee.name, start: times[0] || null, tiffinEntry: times.length >= 3 ? times[1] : null, tiffinExit: times.length >= 3 ? times[2] : null, tiffinDuration: times.length >= 3 ? duration(seconds(times[2]) - seconds(times[1])) : null, exit: times.length >= 2 && times.length % 2 === 0 ? times.at(-1) : null, hours: workedSeconds === null ? null : duration(workedSeconds), salary, status, punches: times });
   }
-  return { rows, totalSalary: employee.monthlySalary === null ? null : totalCents / 100, totalHours: duration(totalSeconds), incompleteDays, missingDays };
+  const details = [...adjustments.values()].map(item => ({ ...item, sundayPay: item.dailyRate === null ? null : Math.round(item.dailyRate * 100) * item.sundayCount / 100, leavePay: item.dailyRate === null ? null : Math.round(item.dailyRate * 100) * item.leaveCount / 100 }));
+  const sundayCents = details.reduce((sum, item) => sum + Math.round((item.sundayPay || 0) * 100), 0);
+  const leaveCents = details.reduce((sum, item) => sum + Math.round((item.leavePay || 0) * 100), 0);
+  const known = employee.monthlySalary !== null;
+  return { rows, totalSalary: known ? totalCents / 100 : null, sundayPay: known ? sundayCents / 100 : null, leavePay: known ? leaveCents / 100 : null, grandTotalSalary: known ? (totalCents + sundayCents + leaveCents) / 100 : null, adjustments: details, totalHours: duration(totalSeconds), incompleteDays, missingDays, rates: [...rates.values()] };
 }
 
 export function salaryCsv(employee, report, sources) {
@@ -108,11 +144,18 @@ export function salaryCsv(employee, report, sources) {
   const safeText = value => /^[=+\-@\t\r]/.test(value) ? `'${value}` : value;
   const lines = [
     ['Employee', safeText(employee.name)], ['Monthly salary', employee.monthlySalary ?? 'Unavailable'],
-    ['Salary policy', 'Full monthly salary; partial periods allocated by calendar days. No attendance deductions.'],
+    ['Salary policy', 'Recorded hours x monthly salary / scheduled monthly hours. Missing or incomplete punches unpaid; work after office end excluded. Add paid Sundays and configured holidays at monthly salary / calendar days; overlap counted once.'],
+    ...report.rates.map(rate => ['Monthly rate', rate.month, 'Scheduled hours', rate.scheduledHours, 'Hourly rate', rate.hourlyRate?.toFixed(6) ?? 'Unavailable']),
     ['Attendance source', safeText(sources.attendanceSource)], ['Salary source', safeText(sources.salarySource)],
     ['Date', 'Name', 'Start Time', 'Tiffin Time Entry', 'Tiffin Time Exit', 'Tiffin Duration', 'Exit Time', 'Total Working Hours', 'Salary', 'Status', 'All punches'],
     ...report.rows.map(row => [row.date, safeText(row.name), row.start, row.tiffinEntry, row.tiffinExit, row.tiffinDuration, row.exit, row.hours, row.salary?.toFixed(2) ?? 'Unavailable', row.status, row.punches.join(' / ')]),
     ['Total Salary', '', '', '', '', '', '', report.totalHours, report.totalSalary?.toFixed(2) ?? 'Unavailable'],
+    ...report.adjustments.flatMap(item => [
+      ['Sunday', item.month, 'Daily rate', item.dailyRate?.toFixed(2) ?? 'Unavailable', 'Count', item.sundayCount, 'Amount', item.sundayPay?.toFixed(2) ?? 'Unavailable'],
+      ['Leave (configured holidays)', item.month, 'Daily rate', item.dailyRate?.toFixed(2) ?? 'Unavailable', 'Count', item.leaveCount, 'Amount', item.leavePay?.toFixed(2) ?? 'Unavailable'],
+    ]),
+    ['Sunday Pay', report.sundayPay?.toFixed(2) ?? 'Unavailable'], ['Leave Pay', report.leavePay?.toFixed(2) ?? 'Unavailable'],
+    ['Grand Total Salary', report.grandTotalSalary?.toFixed(2) ?? 'Unavailable'],
   ];
   return '\uFEFF' + lines.map(line => line.map(quote).join(',')).join('\r\n');
 }
