@@ -1,0 +1,11 @@
+{
+  "name": "attendiq/api",
+  "description": "Private employee, salary, authentication and support API",
+  "require": {
+    "php": ">=8.2",
+    "phpmailer/phpmailer": "^7.0"
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

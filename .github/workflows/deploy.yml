@@ -50,7 +50,13 @@ jobs:
         run: npm ci
 
       - name: Build frontend
-        run: npm run build
+        run: npm run lint && npm test && npm run build
+
+      - name: Verify formatting
+        run: npm run format:check
+
+      - name: Check build output
+        run: test -f dist/index.html
 
       - name: Upload production files to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0

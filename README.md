@@ -1,15 +1,26 @@
 # AttendIQ
 
-React attendance management frontend based on the supplied layout sketch.
+A React 19 + TypeScript attendance workspace built with Vite, Material UI, Emotion, and React Router. Includes three coordinated themes: Pearl Light, Graphite Dark, and Midnight Blue.
+
+## Frontend structure
+
+- `src/app/`: application shell, hash routes, and shared workspace state.
+- `src/features/attendance/`: report setup, file upload, and holiday editor.
+- `src/features/payroll/`: typed calculation engine, file readers, employee report hook, attendance table, and salary summary.
+- `src/theme/`: centralized Material UI palettes, theme provider, and safe preference persistence.
+- `src/shared/`: reusable card, theme picker, and display formatting.
+- `tests/`: browser regressions for themes, uploads, cutoff, CSV totals, and mobile layouts.
+
+Use the header's theme selector on either page. Selection persists locally; disabled browser storage still permits session-only switching. Material UI tokens cover the complete interface, native date/time control color schemes follow the selected theme, and the Inter font is bundled locally. Report UI is lazy-loaded with separate React and Material UI vendor chunks.
 
 ## Run locally
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 
-Open the URL printed by Vite. `npm run build` creates the production files in `dist`.
+Use Node.js 22.13 or later. Open the URL printed by Vite. `npm run build` creates the production files in `dist`.
 
 The setup page supports attendance and salary text uploads, date ranges, weekly leave, editable holiday dates and purposes, office hours, and a tiffin break. Each missing upload independently falls back to `src/assets/Attendance.TXT` or `src/assets/Salary.txt`. Press Report to parse the files and open `#/report`. Each employee has a separate named tab with daily attendance, salary allocations, review flags, a salary total, and an employee-specific CSV download. Weekly, Monthly, Yearly, and Custom periods are supported. Back to setup retains the form and selected files; refreshing uses the bundled files. Hash routes support static hosting in subfolders.
 
@@ -21,6 +32,25 @@ Work hours are informational: sort/deduplicate same-day punches and pair alterna
 
 Files are processed locally in browser memory. Bundled files are included in the frontend build; uploaded replacements reset on refresh. Run `npm test` for parser and salary calculation checks, and `npm run build` for production validation.
 
+## Quality checks
+
+```sh
+npm run typecheck
+npm run lint
+npm test
+npm run format:check
+npm run build
+```
+
+Browser tests:
+
+```sh
+npx playwright install chromium
+npm run test:e2e
+```
+
+For an installed Microsoft Edge browser on Windows, set `$env:PLAYWRIGHT_CHANNEL = 'msedge'` before `npm run test:e2e`. Playwright starts the development server when needed. Test artifacts are ignored by Git. CI runs lint, parser/payroll/theme tests, strict TypeScript, build, and formatting before deployment. `npm run format` applies the shared Prettier style.
+
 ## Deploy to Hostinger with GitHub Actions
 
 This workflow is for Hostinger Web or Cloud hosting with FTP access, rather than a VPS or Website Builder site. GitHub builds the frontend and uploads only `dist/` using explicit FTPS on port 21. No Node.js process is needed on Hostinger.
@@ -28,11 +58,11 @@ This workflow is for Hostinger Web or Cloud hosting with FTP access, rather than
 1. In Hostinger hPanel, open your site's **Files → FTP Accounts** and obtain the FTP server, username, and password. Enable SSL for the website separately in hPanel.
 2. In this GitHub repository, open **Settings → Secrets and variables → Actions**. Add these repository secrets:
 
-   | Secret | Value |
-   | --- | --- |
-   | `FTP_SERVER` | FTP hostname or IP only, without `ftp://` or a path |
-   | `FTP_USERNAME` | Your site's FTP username |
-   | `FTP_PASSWORD` | Your site's FTP password |
+   | Secret         | Value                                               |
+   | -------------- | --------------------------------------------------- |
+   | `FTP_SERVER`   | FTP hostname or IP only, without `ftp://` or a path |
+   | `FTP_USERNAME` | Your site's FTP username                            |
+   | `FTP_PASSWORD` | Your site's FTP password                            |
 
 3. Add `FTP_SERVER_DIR` on the **Variables** tab (or as a repository secret). A variable takes precedence if both exist. Set it to the target website directory as seen by that FTP account, with a trailing slash. Common examples are `/public_html/` for a domain root or `/public_html/attendiq/` for a subfolder. If the FTP account is already restricted to the website directory, use `./`. Confirm the path in an FTP client; do not point this at another site's directory.
 4. Commit and push the project, including `package-lock.json` and `.github/workflows/deploy.yml`, to `main`. Every push to `main` deploys automatically. You can also open **Actions → Deploy AttendIQ to Hostinger → Run workflow** and select `main`.

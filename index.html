@@ -1,1 +1,39 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><meta name="theme-color" content="#166961"/><title>AttendIQ · Attendance workspace</title></head><body><div id="root"></div><script type="module" src="/src/main.jsx"></script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f6f7" />
+    <meta
+      name="description"
+      content="AttendIQ — attendance, working hours, and individual employee salary reports."
+    />
+    <title>AttendIQ · Attendance workspace</title>
+    <style>
+      html {
+        background: #f4f6f7;
+      }
+      html[data-theme='graphite'] {
+        background: #11161c;
+      }
+      html[data-theme='midnight'] {
+        background: #0c1225;
+      }
+    </style>
+    <script>
+      try {
+        const theme = localStorage.getItem('attendiq-theme');
+        if (theme === 'graphite' || theme === 'midnight') {
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = 'dark';
+        }
+      } catch {
+        /* Storage is optional. */
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
