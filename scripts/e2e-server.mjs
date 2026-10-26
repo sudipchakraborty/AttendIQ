@@ -1,9 +1,9 @@
 import { spawn } from 'node:child_process';
-import { mkdtemp, readFile, writeFile } from 'node:fs/promises';
+import { mkdtemp, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import net from 'node:net';
-import { phpBinary } from './php-runtime.mjs';
+import { initializeNodeStorage, startNodeBackend } from './node-backend.mjs';
 const directory = await mkdtemp(join(tmpdir(), 'attendiq-browser-'));
 const smtp = net.createServer((socket) => {
   socket.write('220 local-browser-test ESMTP\r\n');
@@ -29,23 +29,18 @@ const smtp = net.createServer((socket) => {
   });
 });
 await new Promise((resolve) => smtp.listen(0, '127.0.0.1', resolve));
-const config = join(directory, 'config.php');
-await writeFile(
-  config,
-  `<?php return ['smtp'=>['host'=>'127.0.0.1','port'=>${smtp.address().port},'encryption'=>'','from'=>'support@example.test']];`,
-);
-const php = spawn(
-  phpBinary(),
-  ['-S', '127.0.0.1:8001', '-t', 'server/public', 'server/router.php'],
-  {
-    windowsHide: true,
-    stdio: ['ignore', 'ignore', 'pipe'],
-    env: { ...process.env, ATTENDIQ_STORAGE: directory, ATTENDIQ_CONFIG: config },
-  },
-);
-let phpLogs = '';
-php.stderr.on('data', (data) => {
-  phpLogs += data;
+await initializeNodeStorage(directory);
+const backend = startNodeBackend(directory, 8001, {
+  SMTP_HOST: '127.0.0.1',
+  SMTP_PORT: String(smtp.address().port),
+  SMTP_FROM: 'support@example.test',
+  SMTP_SECURE: 'false',
+  SMTP_USER: '',
+  SMTP_PASSWORD: '',
+});
+let backendLogs = '';
+backend.stderr.on('data', (data) => {
+  backendLogs += data;
 });
 let cookie = '',
   csrf = '';
@@ -67,7 +62,7 @@ async function request(route, body) {
 }
 let vite;
 const stop = () => {
-  php.kill();
+  backend.kill();
   vite?.kill();
   smtp.close();
 };
@@ -85,7 +80,7 @@ try {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
   }
-  if (!ready) throw new Error(phpLogs);
+  if (!ready) throw new Error(backendLogs);
   const token = (await readFile(join(directory, 'setup-token.txt'), 'utf8')).trim();
   const password = 'BrowserTest-Only-932!';
   await request('/auth/setup', {

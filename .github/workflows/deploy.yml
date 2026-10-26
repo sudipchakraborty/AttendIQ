@@ -24,7 +24,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
           cache: npm
 
       - name: Validate deployment settings
@@ -33,9 +33,10 @@ jobs:
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
           FTP_SERVER_DIR: ${{ vars.FTP_SERVER_DIR || secrets.FTP_SERVER_DIR }}
+          ATTENDIQ_GATEWAY_SECRET: ${{ secrets.ATTENDIQ_GATEWAY_SECRET }}
         shell: bash
         run: |
-          for setting in FTP_SERVER FTP_USERNAME FTP_PASSWORD FTP_SERVER_DIR; do
+          for setting in FTP_SERVER FTP_USERNAME FTP_PASSWORD FTP_SERVER_DIR ATTENDIQ_GATEWAY_SECRET; do
             if [ -z "${!setting}" ]; then
               echo "::error::Missing $setting. See README.md for Hostinger setup."
               exit 1
@@ -46,11 +47,29 @@ jobs:
             exit 1
           fi
 
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: curl
+
+      - name: Install Node backend
+        run: |
+          git clone --depth 1 https://github.com/sudipchakraborty/AttendIQ_BackEnd.git ../AttendIQ_BackEnd
+          npm ci --prefix ../AttendIQ_BackEnd
+
       - name: Install dependencies
         run: npm ci
 
       - name: Build frontend
-        run: npm run lint && npm test && npm run build
+        env:
+          ATTENDIQ_GATEWAY_SECRET: ${{ secrets.ATTENDIQ_GATEWAY_SECRET }}
+        run: npm run lint && npm test && npm run lint:php && npm run test:api && npm run build
+
+      - name: Browser integration against Node
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:e2e
 
       - name: Verify formatting
         run: npm run format:check

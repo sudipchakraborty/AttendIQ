@@ -1,18 +1,15 @@
-import { access, cp, mkdir, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
-await access('server/vendor/autoload.php').catch(() => {
-  throw new Error('Install PHP dependencies first: composer install --working-dir=server');
-});
+import { cp, mkdir, writeFile } from 'node:fs/promises';
 const destination = 'dist/api';
 await mkdir(destination, { recursive: true });
-for (const item of ['src', 'vendor', 'seed.php'])
-  await cp(join('server', item), join(destination, item), { recursive: true });
+await cp('server/gateway.php', `${destination}/index.php`);
+const gatewaySecret = process.env.ATTENDIQ_GATEWAY_SECRET || '';
+if (gatewaySecret && !/^[a-f0-9]{64}$/.test(gatewaySecret))
+  throw new Error('Invalid ATTENDIQ_GATEWAY_SECRET.');
+await writeFile(`${destination}/.gateway-config.php`, `<?php\nreturn '${gatewaySecret}';\n`, {
+  mode: 0o600,
+});
 await writeFile(
-  join(destination, 'index.php'),
-  "<?php\ndeclare(strict_types=1);\nrequire __DIR__ . '/src/bootstrap.php';\n\\AttendIQ\\serve();\n",
-);
-await writeFile(
-  join(destination, '.htaccess'),
+  `${destination}/.htaccess`,
   `Options -Indexes
 <FilesMatch "^(?!index\\.php$)">
   Require all denied
@@ -20,5 +17,5 @@ await writeFile(
 `,
 );
 console.log(
-  'Packaged PHP API and dependencies into dist/api. Private data and SMTP configuration are excluded.',
+  'Packaged the same-origin Node.js API gateway into dist/api. No business logic or private data is deployed to the frontend host.',
 );

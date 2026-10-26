@@ -1,9 +1,10 @@
-import { spawn } from 'node:child_process';
-import { phpBinary } from './php-runtime.mjs';
-const child = spawn(
-  phpBinary(),
-  ['-S', '127.0.0.1:8000', '-t', 'server/public', 'server/router.php'],
-  { stdio: 'inherit', windowsHide: true },
-);
+import { resolve } from 'node:path';
+import { mkdir } from 'node:fs/promises';
+import { initializeNodeStorage, startNodeBackend } from './node-backend.mjs';
+const storage = resolve(process.env.ATTENDIQ_STORAGE || '../AttendIQ_BackEnd/.attendiq');
+await mkdir(storage, { recursive: true, mode: 0o700 });
+await initializeNodeStorage(storage, true);
+const child = startNodeBackend(storage, Number(process.env.PORT || 8000));
+child.stderr.pipe(process.stderr);
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => child.kill());
 child.on('exit', (code) => process.exit(code || 0));

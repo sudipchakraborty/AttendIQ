@@ -1,5 +1,7 @@
 # AttendIQ
 
+The active API is the dedicated Node.js backend on Contabo. See [Node backend setup and deployment](docs/node-backend.md) for current instructions; PHP API sections below describe the legacy backend.
+
 A React 19 + TypeScript attendance workspace built with Vite, Material UI, Emotion, and React Router. Includes three coordinated themes: Pearl Light, Graphite Dark, and Midnight Blue.
 
 ## Frontend structure

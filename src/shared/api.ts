@@ -12,10 +12,10 @@ export function setCsrfToken(value: string) {
 }
 export async function api<T>(route: string, method = 'GET', body?: unknown): Promise<T> {
   const response = await fetch(
-    `${import.meta.env.BASE_URL}api/index.php?route=${encodeURIComponent(route)}`,
+    `${import.meta.env.VITE_API_BASE_URL || `${import.meta.env.BASE_URL}api`}/index.php?route=${encodeURIComponent(route)}`,
     {
       method,
-      credentials: 'same-origin',
+      credentials: 'include',
       cache: 'no-store',
       headers: {
         ...(method !== 'GET' ? { 'Content-Type': 'application/json', 'X-CSRF-Token': token } : {}),
@@ -29,7 +29,7 @@ export async function api<T>(route: string, method = 'GET', body?: unknown): Pro
   } catch {
     throw new ApiError(
       502,
-      'The PHP API is unavailable. Start the backend or check server configuration.',
+      'The API is unavailable. Start the Node.js backend or check server configuration.',
     );
   }
   if (!response.ok) {
