@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { createAppTheme } from './themes';
-import { readTheme, saveTheme } from './preferences';
+import { DEFAULT_THEME, readTheme, saveTheme } from './preferences';
 import type { ThemeId } from './preferences';
 
 const ThemeContext = createContext<{ id: ThemeId; setId: (id: ThemeId) => void } | null>(null);
@@ -11,7 +11,7 @@ export function AppThemeProvider({ children }: PropsWithChildren) {
     try {
       return readTheme(window.localStorage);
     } catch {
-      return 'pearl';
+      return DEFAULT_THEME;
     }
   });
   const theme = useMemo(() => createAppTheme(id), [id]);

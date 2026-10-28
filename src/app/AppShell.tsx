@@ -296,6 +296,7 @@ export function AppShell({ children }: PropsWithChildren) {
             <Button
               size="small"
               aria-label="Sign out"
+              disabled={auth.developmentBypass}
               startIcon={<LogOut size={15} />}
               onClick={async () => {
                 try {
@@ -306,7 +307,7 @@ export function AppShell({ children }: PropsWithChildren) {
               }}
               sx={{ whiteSpace: 'nowrap' }}
             >
-              Sign out
+              {auth.developmentBypass ? 'Development access' : 'Sign out'}
             </Button>
           </Stack>
         </Box>

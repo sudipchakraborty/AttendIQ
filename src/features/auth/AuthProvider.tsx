@@ -13,6 +13,7 @@ export interface User {
   version: number;
 }
 interface Session {
+  developmentBypass?: boolean;
   user: User | null;
   permissions: string[];
   setupRequired: boolean;

@@ -4,7 +4,10 @@ import { initializeNodeStorage, startNodeBackend } from './node-backend.mjs';
 const storage = resolve(process.env.ATTENDIQ_STORAGE || '../AttendIQ_BackEnd/.attendiq');
 await mkdir(storage, { recursive: true, mode: 0o700 });
 await initializeNodeStorage(storage, true);
-const child = startNodeBackend(storage, Number(process.env.PORT || 8000));
+// Local development skips login by default; set ATTENDIQ_DEV_AUTH_BYPASS=0 to restore it.
+const child = startNodeBackend(storage, Number(process.env.PORT || 8000), {
+  ATTENDIQ_DEV_AUTH_BYPASS: process.env.ATTENDIQ_DEV_AUTH_BYPASS ?? '1',
+});
 child.stderr.pipe(process.stderr);
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => child.kill());
 child.on('exit', (code) => process.exit(code || 0));
