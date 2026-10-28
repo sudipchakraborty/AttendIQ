@@ -2,6 +2,9 @@
 
 ## 2026-10-28 — frontend-only attendance and leave calculator
 
+- Published code commit `353cd51`; Hostinger deployment run `40666061901` completed successfully, including both browser suites and formatting.
+- Live Chrome verification at https://attendiq.drsudip.com/ passed: old login link opens calculator, a synthetic attendance upload generates the employee report and leave breakdown, and no API requests occur. The test upload existed only in browser memory.
+
 - User requested cloud access without the unavailable backend. Added `src/app/runtime.ts`: standalone mode is the default; build/start with `VITE_STANDALONE=false` to restore connected login/API mode.
 - AuthProvider supplies a report-only browser workspace with no session request. Attendance/Reports remain accessible from old login links; backend management navigation and sign-out are hidden. Connected permissions and login remain available when explicitly enabled.
 - Added reusable, documented `loadLocalSources` in `src/features/payroll/localSources.ts`. Attendance TXT upload is required, salary TXT optional, holidays may be entered or uploaded as TXT/CSV. Inputs remain in browser memory and clear on refresh; no sample employee/salary data is bundled. Existing calculation policy is unchanged: Leave means configured holidays, not an employee leave approval system.
