@@ -1,5 +1,11 @@
 # AttendIQ
 
+## Current mode: standalone calculator
+
+The default build opens without login and requires no backend. Run `npm ci` and `npm run dev` with Node.js 24.15+; upload an attendance TXT file, optionally upload salary TXT, and configure weekly leave, holidays, office hours, and dates. Reports and CSV exports are calculated in browser memory. No employee defaults are published; uploads clear on refresh. “Leave” in the report means configured holidays, as in the existing calculation policy.
+
+`npm run build` produces a static `dist/` without the PHP API gateway. `npm run test:standalone` tests that built output with API access blocked. Set `VITE_STANDALONE=false` at build/start time to restore the connected login and management workspace. Its API and deployment requirements below apply only in connected mode.
+
 The active API is the dedicated Node.js backend on Contabo. See [Node backend setup and deployment](docs/node-backend.md) for current instructions; PHP API sections below describe the legacy backend.
 
 A React 19 + TypeScript attendance workspace built with Vite, Material UI, Emotion, and React Router. Includes three coordinated themes: Pearl Light, Graphite Dark, and Midnight Blue.

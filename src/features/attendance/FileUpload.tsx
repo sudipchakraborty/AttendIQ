@@ -9,12 +9,14 @@ export function FileUpload({
   file,
   onChange,
   fallback,
+  required = false,
 }: {
   title: string;
   description: string;
   file: File | null;
   onChange: (file: File | null) => void;
-  fallback: string;
+  fallback?: string;
+  required?: boolean;
 }) {
   const input = useRef<HTMLInputElement>(null);
   return (
@@ -26,7 +28,11 @@ export function FileUpload({
         <Typography variant="body2" sx={{ fontWeight: 600 }}>
           {title}
         </Typography>
-        <Chip label="Optional override" size="small" sx={{ height: 21 }} />
+        <Chip
+          label={required ? 'Required' : fallback ? 'Optional override' : 'Optional'}
+          size="small"
+          sx={{ height: 21 }}
+        />
       </Stack>
       <Box
         sx={{
@@ -82,7 +88,11 @@ export function FileUpload({
         variant="caption"
         sx={{ ...{ display: 'block', mt: 1 }, color: 'text.secondary' }}
       >
-        Default: {fallback}
+        {fallback
+          ? `Default: ${fallback}`
+          : required
+            ? 'Choose a file to calculate your report.'
+            : 'No default file is supplied.'}
       </Typography>
     </Box>
   );

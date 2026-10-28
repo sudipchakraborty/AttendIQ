@@ -102,7 +102,11 @@ try {
     {
       windowsHide: true,
       stdio: 'inherit',
-      env: { ...process.env, ATTENDIQ_API_TARGET: 'http://127.0.0.1:8001' },
+      env: {
+        ...process.env,
+        VITE_STANDALONE: 'false',
+        ATTENDIQ_API_TARGET: 'http://127.0.0.1:8001',
+      },
     },
   );
   vite.on('exit', (code) => {

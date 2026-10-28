@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import type { PropsWithChildren } from 'react';
 import { api } from '../../shared/api';
 import { errorMessage } from '../../shared/format';
+import { standalone } from '../../app/runtime';
 
 export type Role = 'Admin' | 'HR' | 'Viewer';
 export interface User {
@@ -30,6 +31,37 @@ interface Auth extends Session {
 }
 const Context = createContext<Auth | null>(null);
 export function AuthProvider({ children }: PropsWithChildren) {
+  return standalone ? (
+    <Context.Provider
+      value={{
+        user: {
+          id: 'browser-workspace',
+          name: 'Browser workspace',
+          email: '',
+          role: 'Viewer',
+          active: true,
+          version: 1,
+        },
+        permissions: ['reports.read'],
+        setupRequired: false,
+        csrfToken: '',
+        loading: false,
+        error: '',
+        refresh: async () => {},
+        login: async () => {},
+        setup: async () => {},
+        logout: async () => {},
+        can: (permission) => permission === 'reports.read',
+      }}
+    >
+      {children}
+    </Context.Provider>
+  ) : (
+    <ConnectedAuthProvider>{children}</ConnectedAuthProvider>
+  );
+}
+
+function ConnectedAuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session>({
     user: null,
     permissions: [],

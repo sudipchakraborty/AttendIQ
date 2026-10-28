@@ -2,12 +2,15 @@ import type { PayrollSources } from './types';
 import { api } from '../../shared/api';
 import type { ManagedEmployee } from '../employees/types';
 import { parseAttendance, parseSalaries, matchEmployees, parseHolidays } from './payroll';
+import { standalone } from '../../app/runtime';
+import { loadLocalSources } from './localSources';
 
 export async function loadPayrollSources(
   attendance: File | null = null,
   salary: File | null = null,
   holidayFile: File | null = null,
 ): Promise<PayrollSources> {
+  if (standalone) return loadLocalSources(attendance, salary, holidayFile);
   for (const file of [attendance, salary].filter((file): file is File => file !== null)) {
     if (!/\.txt$/i.test(file.name))
       throw new Error(

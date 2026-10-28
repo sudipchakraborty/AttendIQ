@@ -27,6 +27,7 @@ import {
 import { Link, useLocation } from 'react-router-dom';
 import { ThemePicker } from '../shared/ThemePicker';
 import { useAuth } from '../features/auth/AuthProvider';
+import { standalone } from './runtime';
 
 export function AppShell({ children }: PropsWithChildren) {
   const path = useLocation().pathname;
@@ -216,7 +217,9 @@ export function AppShell({ children }: PropsWithChildren) {
               A little peace of mind.
             </Typography>
             <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-              Employee and salary records are saved securely on your server.
+              {standalone
+                ? 'Your uploads stay in this browser tab. Refreshing clears them.'
+                : 'Employee and salary records are saved securely on your server.'}
             </Typography>
           </Box>
           <Divider />
@@ -235,7 +238,7 @@ export function AppShell({ children }: PropsWithChildren) {
             <Box>
               <Typography sx={{ fontSize: 12, fontWeight: 600 }}>{auth.user?.name}</Typography>
               <Typography sx={{ ...{ fontSize: 10 }, color: 'text.secondary' }}>
-                {auth.user?.role}
+                {standalone ? 'Local calculations' : auth.user?.role}
               </Typography>
             </Box>
           </Stack>
@@ -287,28 +290,30 @@ export function AppShell({ children }: PropsWithChildren) {
                   }}
                 />
               }
-              label={auth.user?.role || 'Workspace'}
+              label={standalone ? 'Browser calculator' : auth.user?.role || 'Workspace'}
               size="small"
               variant="outlined"
               sx={{ display: { xs: 'none', lg: 'flex' } }}
             />
             <ThemePicker />
-            <Button
-              size="small"
-              aria-label="Sign out"
-              disabled={auth.developmentBypass}
-              startIcon={<LogOut size={15} />}
-              onClick={async () => {
-                try {
-                  await auth.logout();
-                } catch {
-                  setLogoutError('Could not sign out. Please try again.');
-                }
-              }}
-              sx={{ whiteSpace: 'nowrap' }}
-            >
-              {auth.developmentBypass ? 'Development access' : 'Sign out'}
-            </Button>
+            {!standalone && (
+              <Button
+                size="small"
+                aria-label="Sign out"
+                disabled={auth.developmentBypass}
+                startIcon={<LogOut size={15} />}
+                onClick={async () => {
+                  try {
+                    await auth.logout();
+                  } catch {
+                    setLogoutError('Could not sign out. Please try again.');
+                  }
+                }}
+                sx={{ whiteSpace: 'nowrap' }}
+              >
+                {auth.developmentBypass ? 'Development access' : 'Sign out'}
+              </Button>
+            )}
           </Stack>
         </Box>
         <Box

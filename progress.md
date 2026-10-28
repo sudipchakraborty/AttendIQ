@@ -1,5 +1,28 @@
 # Frontend progress
 
+## 2026-10-28 — frontend-only attendance and leave calculator
+
+- User requested cloud access without the unavailable backend. Added `src/app/runtime.ts`: standalone mode is the default; build/start with `VITE_STANDALONE=false` to restore connected login/API mode.
+- AuthProvider supplies a report-only browser workspace with no session request. Attendance/Reports remain accessible from old login links; backend management navigation and sign-out are hidden. Connected permissions and login remain available when explicitly enabled.
+- Added reusable, documented `loadLocalSources` in `src/features/payroll/localSources.ts`. Attendance TXT upload is required, salary TXT optional, holidays may be entered or uploaded as TXT/CSV. Inputs remain in browser memory and clear on refresh; no sample employee/salary data is bundled. Existing calculation policy is unchanged: Leave means configured holidays, not an employee leave approval system.
+- Updated reusable FileUpload badges/default hints, setup text, and sidebar privacy message to describe actual standalone behavior.
+- Static production builds omit the PHP gateway. Updated deployment workflow to build standalone mode without a gateway secret; connected API/browser regressions still run in isolation. Added standalone Playwright config, npm script, production browser tests, and README setup/rollback instructions. Browser suites use separate artifact directories.
+- Verification: frontend lint, 19 unit tests, TypeScript/production build passed. Both standalone production-browser tests passed with API access blocked (login redirect, missing attendance validation, holidays/pay/CSV, optional salary, and refresh clearing uploads). Six connected browser tests passed; login regression passed on rerun after resolving a shared test-artifact directory collision.
+- Formatting passed with Windows line endings accepted (`prettier --check . --end-of-line auto`); Linux CI uses repository LF line endings. `dist/api` is absent and artifact scan found no bundled legacy employee sample names.
+
+## 2026-10-28 — Contabo connectivity follow-up
+
+- User provided server access for diagnosis. SSH on standard port 22 timed out before authentication; no credentials were saved in project files.
+- Confirmed socket.sukalyanai.com resolves to the supplied server IP. TCP 80/443 connect; TCP 22/9443 do not connect from this environment. Existing HTTPS listener responds with nginx/Ubuntu and 404 for /ready; it is not evidence that AttendIQ is running.
+- Requested custom SSH port or console listener/firewall/service output. No production configuration changed; gateway issue remains unresolved.
+
+## 2026-10-28 — cloud API availability investigation
+
+- Reproduced live failure: https://attendiq.drsudip.com/api/index.php?route=%2Fauth%2Fsession returns HTTP 502 with the gateway's Node API unavailable message.
+- Reviewed PHP gateway: this response means the upstream request failed, had no valid HTTP status, or returned non-JSON. Missing PHP cURL or gateway-secret configuration has separate 503 messages; these were not observed.
+- Direct requests to configured upstream https://socket.sukalyanai.com:9443/ready and /api/auth/session timed out after 20 seconds from this execution environment. Exact server-side cause remains unconfirmed.
+- Development bypass is local only. Frontend deployment does not deploy the Node backend. No application behavior changed during this investigation; requested Contabo service/log diagnostics or an SSH connection to continue.
+
 ## 2026-10-28 — commit and push preparation
 
 - Reviewed pending changes and fetched origin; local main matched origin/main before committing.

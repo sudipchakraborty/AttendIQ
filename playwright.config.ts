@@ -3,6 +3,7 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   testMatch: '**/*.spec.ts',
+  testIgnore: '**/standalone.spec.ts',
   fullyParallel: false,
   workers: 1,
   forbidOnly: Boolean(process.env.CI),

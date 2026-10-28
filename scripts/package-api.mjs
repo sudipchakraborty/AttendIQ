@@ -1,4 +1,8 @@
 import { cp, mkdir, writeFile } from 'node:fs/promises';
+if (process.env.VITE_STANDALONE !== 'false') {
+  console.log('Standalone calculator build: no API gateway or private data packaged.');
+  process.exit(0);
+}
 const destination = 'dist/api';
 await mkdir(destination, { recursive: true });
 await cp('server/gateway.php', `${destination}/index.php`);

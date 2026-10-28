@@ -26,6 +26,7 @@ import { useWorkspace } from '../../app/WorkspaceProvider';
 import { SectionCard } from '../../shared/SectionCard';
 import { FileUpload } from './FileUpload';
 import { HolidayEditor } from './HolidayEditor';
+import { standalone } from '../../app/runtime';
 
 export default function SetupPage() {
   const { values, update, files, setFile, busy, error, prepare } = useWorkspace();
@@ -130,14 +131,15 @@ export default function SetupPage() {
                   description="Drop in your attendance"
                   file={files.attendance}
                   onChange={(file) => setFile('attendance', file)}
-                  fallback="Attendance.TXT"
+                  fallback={standalone ? undefined : 'Attendance.TXT'}
+                  required={standalone}
                 />
                 <FileUpload
                   title="Salary list"
                   description="Add your salary list"
                   file={files.salary}
                   onChange={(file) => setFile('salary', file)}
-                  fallback="Salary.txt"
+                  fallback={standalone ? undefined : 'Salary.txt'}
                 />
               </Box>
               <Stack
@@ -147,8 +149,9 @@ export default function SetupPage() {
               >
                 <ShieldCheck size={14} />
                 <Typography variant="caption">
-                  Missing uploads use the saved server files. Report calculations run in this
-                  browser.
+                  {standalone
+                    ? 'Upload attendance to calculate working days and leave. Salary is optional. Files stay in this browser tab and clear on refresh.'
+                    : 'Missing uploads use the saved server files. Report calculations run in this browser.'}
                 </Typography>
               </Stack>
             </SectionCard>
@@ -344,7 +347,7 @@ export default function SetupPage() {
               {[
                 [
                   'Source files',
-                  `${Number(Boolean(files.attendance)) + Number(Boolean(files.salary))} uploaded · defaults ready`,
+                  `${Number(Boolean(files.attendance)) + Number(Boolean(files.salary))} uploaded${standalone ? '' : ' · defaults ready'}`,
                 ],
                 ['Weekly days off', values.weeklyLeave.length],
                 [
