@@ -18,6 +18,8 @@ Mutable accounts (salted password hashes), annual policies and leave application
 
 Verification: `npm run test:leave` (HTTP permissions, validation, concurrent approvals and persistence), `npm run test:leave:e2e` (isolated JSON store, employee/admin flow and mobile), `npm test`, `npm run lint`, `npm run build:frontend`. To use another local port set `ATTENDIQ_LEAVE_FRONTEND_PORT`; to use a different data folder set `ATTENDIQ_LEAVE_STORAGE` before starting. Do not run two services against the same JSON store.
 
+Admin Settings in local leave review mode includes duty start/end and tiffin start/end times. **Save working hours** writes them to `.attendiq/leave-review/config.json` and restores them on reopening the page or restarting the service. Initial duty hours are 09:30–18:30 and tiffin hours are 13:00–13:30. End times must follow start times; the tiffin period must fit inside the duty period. These settings currently store the schedule for client review; attendance report inputs remain independently editable.
+
 ## Current mode: standalone calculator
 
 The default build opens without login and requires no backend. Run `npm ci` and `npm run dev` with Node.js 24.15+; upload an attendance TXT file, optionally upload salary TXT, and configure weekly leave, holidays, office hours, and dates. Reports and CSV exports are calculated in browser memory. No employee defaults are published; uploads clear on refresh. “Leave” in the report means configured holidays, as in the existing calculation policy.

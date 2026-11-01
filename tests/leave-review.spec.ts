@@ -53,6 +53,24 @@ test('employees submit private leave; admin approves and changes allowances', as
   await expect(page.getByRole('cell', { name: 'Approved', exact: true })).toBeVisible();
   await page.screenshot({ path: 'playwright-report/leave-admin-desktop.png', fullPage: true });
   await page.getByRole('link', { name: 'Admin Settings' }).click();
+  await page.getByLabel('Duty start time').fill('09:00');
+  await page.getByLabel('Duty end time').fill('18:00');
+  await page.getByLabel('Tiffin start time').fill('13:00');
+  await page.getByLabel('Tiffin end time').fill('13:45');
+  await page.getByRole('button', { name: 'Save working hours' }).click();
+  await expect(page.getByText('Duty and tiffin hours saved.')).toBeVisible();
+  await page.reload();
+  await expect(page.getByLabel('Duty start time')).toHaveValue('09:00');
+  await expect(page.getByLabel('Duty end time')).toHaveValue('18:00');
+  await expect(page.getByLabel('Tiffin start time')).toHaveValue('13:00');
+  await expect(page.getByLabel('Tiffin end time')).toHaveValue('13:45');
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+  ).toBeTruthy();
+  await page.screenshot({ path: 'playwright-report/admin-hours-mobile.png', fullPage: true });
+  await page.setViewportSize({ width: 1440, height: 1100 });
+  await page.screenshot({ path: 'playwright-report/admin-hours-desktop.png', fullPage: true });
   await page.getByLabel('Policy year').selectOption('2028');
   await expect(page.getByLabel('SL allowance (days)')).toHaveValue('10');
   await page.getByLabel('Policy year').selectOption('2026');

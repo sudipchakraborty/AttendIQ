@@ -19,6 +19,24 @@ function validYear(value) {
     fail(400, 'Choose a year between 2000 and 2100.');
   return year;
 }
+function validateWorkHours(body) {
+  const hours = {};
+  for (const key of ['dutyStart', 'dutyEnd', 'tiffinStart', 'tiffinEnd']) {
+    if (typeof body[key] !== 'string' || !/^([01]\d|2[0-3]):[0-5]\d$/.test(body[key]))
+      fail(400, 'Enter all duty and tiffin times in HH:mm format.');
+    hours[key] = body[key];
+  }
+  if (hours.dutyEnd <= hours.dutyStart) fail(400, 'Duty end time must be after duty start time.');
+  if (hours.tiffinEnd <= hours.tiffinStart)
+    fail(400, 'Tiffin end time must be after tiffin start time.');
+  if (
+    hours.tiffinStart < hours.dutyStart ||
+    hours.tiffinEnd > hours.dutyEnd ||
+    (hours.tiffinStart === hours.dutyStart && hours.tiffinEnd === hours.dutyEnd)
+  )
+    fail(400, 'Tiffin hours must fit within duty hours and be shorter than the duty period.');
+  return hours;
+}
 function dateRange(date, days) {
   if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date))
     fail(400, 'Choose a valid start date.');
@@ -55,6 +73,18 @@ export async function createLeaveReviewServer({
   seedPath = new URL('./leave-review-seed.json', import.meta.url),
 }) {
   await mkdir(storage, { recursive: true });
+  const configPath = join(storage, 'config.json');
+  let config;
+  try {
+    config = JSON.parse(await readFile(configPath, 'utf8'));
+    validateWorkHours(config.workHours || {});
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+    config = {
+      workHours: { dutyStart: '09:30', dutyEnd: '18:30', tiffinStart: '13:00', tiffinEnd: '13:30' },
+    };
+    await writeFile(configPath, JSON.stringify(config, null, 2), { mode: 0o600 });
+  }
   const path = join(storage, 'leave-data.json');
   let state;
   try {
@@ -184,6 +214,18 @@ export async function createLeaveReviewServer({
         sessions.delete(sessionId);
         res.setHeader('Set-Cookie', `${cookieName}=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0`);
         return send(200, { ok: true });
+      }
+      if (route === '/settings/hours') {
+        if (!admin) fail(403, 'Only administrators can manage working hours.');
+        if (req.method === 'GET') return send(200, config.workHours);
+        if (req.method === 'PUT') {
+          const workHours = validateWorkHours(await readBody(req));
+          const next = { ...config, workHours };
+          await writeFile(`${configPath}.tmp`, JSON.stringify(next, null, 2), { mode: 0o600 });
+          await rename(`${configPath}.tmp`, configPath);
+          config = next;
+          return send(200, config.workHours);
+        }
       }
       if (route === '/settings') {
         if (!admin) fail(403, 'Only administrators can manage leave settings.');

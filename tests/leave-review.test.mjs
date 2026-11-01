@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -40,6 +40,7 @@ test('local leave API enforces identity, approval policy and JSON persistence', 
       admin = client(),
       alice = client(),
       bob = client();
+    assert.equal((await anon('/settings/hours')).status, 401);
     assert.equal((await anon('/leaves')).status, 401);
     assert.equal(
       (await anon('/login', 'POST', { email: 'employee1@attendiq.local', password: 'wrong' }))
@@ -56,6 +57,40 @@ test('local leave API enforces identity, approval policy and JSON persistence', 
       'Employee',
     );
     await bob('/login', 'POST', login('employee2@attendiq.local'));
+    const hours = {
+      dutyStart: '09:00',
+      dutyEnd: '18:00',
+      tiffinStart: '13:00',
+      tiffinEnd: '13:45',
+    };
+    assert.equal((await alice('/settings/hours')).status, 403);
+    assert.equal((await alice('/settings/hours', 'PUT', hours)).status, 403);
+    assert.deepEqual((await admin('/settings/hours')).data, {
+      dutyStart: '09:30',
+      dutyEnd: '18:30',
+      tiffinStart: '13:00',
+      tiffinEnd: '13:30',
+    });
+    assert.equal(
+      (await admin('/settings/hours', 'PUT', hours, { 'X-Leave-CSRF': 'invalid' })).status,
+      403,
+    );
+    for (const invalid of [
+      { ...hours, dutyStart: '' },
+      { ...hours, dutyStart: '24:00' },
+      { ...hours, dutyEnd: '08:00' },
+      { ...hours, tiffinEnd: '13:00' },
+      { ...hours, tiffinStart: '08:30' },
+      { ...hours, tiffinEnd: '19:00' },
+      { ...hours, tiffinStart: '09:00', tiffinEnd: '18:00' },
+    ])
+      assert.equal((await admin('/settings/hours', 'PUT', invalid)).status, 400);
+    assert.equal((await admin('/settings/hours', 'PUT', hours)).status, 200);
+    assert.deepEqual((await admin('/settings/hours')).data, hours);
+    assert.deepEqual(
+      JSON.parse(await readFile(join(storage, 'config.json'), 'utf8')).workHours,
+      hours,
+    );
     assert.equal(
       (
         await alice(
@@ -154,6 +189,8 @@ test('local leave API enforces identity, approval policy and JSON persistence', 
     );
     await new Promise((resolve) => server.close(resolve));
     base = await start();
+    await admin('/login', 'POST', login('admin@attendiq.local'));
+    assert.deepEqual((await admin('/settings/hours')).data, hours);
     await alice('/login', 'POST', login('employee1@attendiq.local'));
     const restored = (await alice('/leaves?year=2026')).data;
     assert.equal(restored.applications.length, 3);

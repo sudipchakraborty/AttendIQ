@@ -13,6 +13,7 @@ import { Save, ShieldCheck } from 'lucide-react';
 import { currentYear, localLeaveApi, policyYears } from './client';
 import type { LeaveSettings } from './types';
 import { errorMessage } from '../../shared/format';
+import { WorkHoursSettings } from './WorkHoursSettings';
 
 export default function LeaveSettingsPage() {
   const [year, setYear] = useState(currentYear());
@@ -55,9 +56,10 @@ export default function LeaveSettingsPage() {
           Admin Settings
         </Typography>
         <Typography color="text.secondary" sx={{ mt: 1 }}>
-          Manage the annual leave policy for your employees.
+          Manage working hours and the annual leave policy for your employees.
         </Typography>
       </Box>
+      <WorkHoursSettings />
       {error && (
         <Alert
           severity="error"
