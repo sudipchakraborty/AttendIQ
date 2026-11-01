@@ -5,6 +5,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
 import { ThemePicker } from '../../shared/ThemePicker';
 import { errorMessage } from '../../shared/format';
+import { leaveReview } from '../../app/runtime';
 
 export default function LoginPage() {
   const auth = useAuth(),
@@ -16,7 +17,12 @@ export default function LoginPage() {
   const [busy, setBusy] = useState(false),
     [error, setError] = useState('');
   if (auth.user)
-    return <Navigate to={(location.state as { from?: string } | null)?.from || '/'} replace />;
+    return (
+      <Navigate
+        to={(location.state as { from?: string } | null)?.from || (leaveReview ? '/leave' : '/')}
+        replace
+      />
+    );
   return (
     <Box sx={{ minHeight: '100vh', display: 'grid', placeItems: 'center', p: 2.5 }}>
       <Box sx={{ position: 'absolute', right: 24, top: 24 }}>
@@ -40,7 +46,9 @@ export default function LoginPage() {
         <Typography sx={{ mt: 1, mb: 3, color: 'text.secondary' }}>
           {auth.setupRequired
             ? 'Create the first administrator using the private installation token.'
-            : 'Sign in to manage your people and payroll.'}
+            : leaveReview
+              ? 'Sign in to apply for leave or review employee requests.'
+              : 'Sign in to manage your people and payroll.'}
         </Typography>
         {auth.error && (
           <Alert
@@ -54,6 +62,12 @@ export default function LoginPage() {
         {error && (
           <Alert severity="error" sx={{ mb: 2 }}>
             {error}
+          </Alert>
+        )}
+        {leaveReview && (
+          <Alert severity="info" sx={{ mb: 3 }}>
+            Local review accounts: admin@attendiq.local, employee1@attendiq.local or
+            employee2@attendiq.local. Password for each: Review@2026!
           </Alert>
         )}
         <Box

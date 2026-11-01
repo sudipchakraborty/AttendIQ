@@ -26,7 +26,7 @@ import { useWorkspace } from '../../app/WorkspaceProvider';
 import { SectionCard } from '../../shared/SectionCard';
 import { FileUpload } from './FileUpload';
 import { HolidayEditor } from './HolidayEditor';
-import { standalone } from '../../app/runtime';
+import { localCalculations as standalone } from '../../app/runtime';
 
 export default function SetupPage() {
   const { values, update, files, setFile, busy, error, prepare } = useWorkspace();

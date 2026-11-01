@@ -1,5 +1,23 @@
 # AttendIQ
 
+## Employee leave: local JSON review
+
+Run `npm run dev:leave` and open **http://localhost:5173/#/leave**. Stop any existing Vite process on port 5173 first. This mode starts a loopback-only JSON service on port 8011 and the frontend together; it does not contact Contabo. The normal `npm run dev` still opens the standalone calculator.
+
+Review accounts (password for all: `Review@2026!`):
+
+| Role     | Email                    | Access                                        |
+| -------- | ------------------------ | --------------------------------------------- |
+| Admin    | admin@attendiq.local     | All employee leave, approvals, Admin Settings |
+| Employee | employee1@attendiq.local | Aarav Sharma's own applications and balances  |
+| Employee | employee2@attendiq.local | Priya Das's own applications and balances     |
+
+Employees submit SL (sick leave) or CL (casual leave), a start date, whole number of calendar days and optional reason. Applications start Pending; only Approved days reduce available leave. Admins confirm approval/rejection, see all employee balances, and set annual SL/CL allowances under **Admin Settings**. Both start at **10 days per employee per calendar year**. Settings apply to the selected year and cannot be reduced below approved usage. No carry-forward or half-days; cross-year leave requires separate requests. Overlapping pending/approved requests are rejected. Pending totals are shown separately and approval rechecks the available balance.
+
+Mutable accounts (salted password hashes), annual policies and leave applications persist in `.attendiq/leave-review/leave-data.json`, which is ignored by Git and blocked from Vite file serving. Review accounts are seeded once from `scripts/leave-review-seed.json`; changes to that seed affect new storage only. Sessions expire after eight hours or a service restart; applications and settings persist. This service is for local client review with demo accounts, not a production deployment. Database migration and production account management are deferred.
+
+Verification: `npm run test:leave` (HTTP permissions, validation, concurrent approvals and persistence), `npm run test:leave:e2e` (isolated JSON store, employee/admin flow and mobile), `npm test`, `npm run lint`, `npm run build:frontend`. To use another local port set `ATTENDIQ_LEAVE_FRONTEND_PORT`; to use a different data folder set `ATTENDIQ_LEAVE_STORAGE` before starting. Do not run two services against the same JSON store.
+
 ## Current mode: standalone calculator
 
 The default build opens without login and requires no backend. Run `npm ci` and `npm run dev` with Node.js 24.15+; upload an attendance TXT file, optionally upload salary TXT, and configure weekly leave, holidays, office hours, and dates. Reports and CSV exports are calculated in browser memory. No employee defaults are published; uploads clear on refresh. “Leave” in the report means configured holidays, as in the existing calculation policy.

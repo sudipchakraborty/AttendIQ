@@ -23,11 +23,13 @@ import {
   Wallet,
   Mail,
   LogOut,
+  CalendarDays,
+  Settings,
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { ThemePicker } from '../shared/ThemePicker';
 import { useAuth } from '../features/auth/AuthProvider';
-import { standalone } from './runtime';
+import { leaveReview, standalone } from './runtime';
 
 export function AppShell({ children }: PropsWithChildren) {
   const path = useLocation().pathname;
@@ -123,6 +125,24 @@ export function AppShell({ children }: PropsWithChildren) {
           sx={{ ml: 0, width: '100%', flexWrap: { xs: 'wrap', md: 'nowrap' } }}
         >
           {[
+            ...(leaveReview
+              ? [
+                  {
+                    name: 'Leave',
+                    path: '/leave',
+                    icon: CalendarDays,
+                    active: path === '/leave',
+                    permission: auth.can('leave.read.all') ? 'leave.read.all' : 'leave.read.own',
+                  },
+                  {
+                    name: 'Admin Settings',
+                    path: '/admin/settings',
+                    icon: Settings,
+                    active: path === '/admin/settings',
+                    permission: 'settings.leave',
+                  },
+                ]
+              : []),
             {
               name: 'Attendance',
               path: '/',
@@ -217,9 +237,11 @@ export function AppShell({ children }: PropsWithChildren) {
               A little peace of mind.
             </Typography>
             <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-              {standalone
-                ? 'Your uploads stay in this browser tab. Refreshing clears them.'
-                : 'Employee and salary records are saved securely on your server.'}
+              {leaveReview
+                ? 'Leave applications are saved locally in this review environment.'
+                : standalone
+                  ? 'Your uploads stay in this browser tab. Refreshing clears them.'
+                  : 'Employee and salary records are saved securely on your server.'}
             </Typography>
           </Box>
           <Divider />
@@ -233,7 +255,12 @@ export function AppShell({ children }: PropsWithChildren) {
                 color: 'text.secondary',
               }}
             >
-              HR
+              {auth.user?.name
+                .split(' ')
+                .filter(Boolean)
+                .slice(0, 2)
+                .map((part) => part[0])
+                .join('') || 'IQ'}
             </Avatar>
             <Box>
               <Typography sx={{ fontSize: 12, fontWeight: 600 }}>{auth.user?.name}</Typography>
@@ -272,6 +299,8 @@ export function AppShell({ children }: PropsWithChildren) {
                   '/salaries': 'Salary management',
                   '/users': 'Users & roles',
                   '/support': 'Support',
+                  '/leave': 'Leave management',
+                  '/admin/settings': 'Admin Settings',
                 } as Record<string, string>
               )[path] || 'Workspace'}
             </Box>

@@ -5,7 +5,12 @@ export default defineConfig({
   plugins: [react()],
   base: './',
   server: {
-    proxy: { '/api': { target: process.env.ATTENDIQ_API_TARGET || 'http://127.0.0.1:8000' } },
+    proxy: {
+      '/local-leave-api': {
+        target: process.env.ATTENDIQ_LEAVE_API_TARGET || 'http://127.0.0.1:8011',
+      },
+      '/api': { target: process.env.ATTENDIQ_API_TARGET || 'http://127.0.0.1:8000' },
+    },
     fs: {
       deny: [
         '.env',
@@ -14,12 +19,18 @@ export default defineConfig({
         '**/.attendiq/**',
         '**/server/**',
         '**/src/assets/**',
+        '**/scripts/leave-review-seed.json',
         '*.{crt,pem}',
       ],
     },
   },
   preview: {
-    proxy: { '/api': { target: process.env.ATTENDIQ_API_TARGET || 'http://127.0.0.1:8000' } },
+    proxy: {
+      '/local-leave-api': {
+        target: process.env.ATTENDIQ_LEAVE_API_TARGET || 'http://127.0.0.1:8011',
+      },
+      '/api': { target: process.env.ATTENDIQ_API_TARGET || 'http://127.0.0.1:8000' },
+    },
   },
   build: {
     rollupOptions: {

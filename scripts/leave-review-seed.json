@@ -1,0 +1,26 @@
+{
+  "defaultAllowances": { "SL": 10, "CL": 10 },
+  "users": [
+    {
+      "id": "review-admin",
+      "name": "Review Administrator",
+      "email": "admin@attendiq.local",
+      "role": "Admin",
+      "password": "Review@2026!"
+    },
+    {
+      "id": "emp-001",
+      "name": "Aarav Sharma",
+      "email": "employee1@attendiq.local",
+      "role": "Employee",
+      "password": "Review@2026!"
+    },
+    {
+      "id": "emp-002",
+      "name": "Priya Das",
+      "email": "employee2@attendiq.local",
+      "role": "Employee",
+      "password": "Review@2026!"
+    }
+  ]
+}

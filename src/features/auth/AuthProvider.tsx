@@ -2,9 +2,10 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import type { PropsWithChildren } from 'react';
 import { api } from '../../shared/api';
 import { errorMessage } from '../../shared/format';
-import { standalone } from '../../app/runtime';
+import { leaveReview, standalone } from '../../app/runtime';
+import { localLeaveApi } from '../leave/client';
 
-export type Role = 'Admin' | 'HR' | 'Viewer';
+export type Role = 'Admin' | 'HR' | 'Viewer' | 'Employee';
 export interface User {
   id: string;
   name: string;
@@ -30,6 +31,10 @@ interface Auth extends Session {
   can: (permission: string) => boolean;
 }
 const Context = createContext<Auth | null>(null);
+const authApi = <T,>(route: string, method = 'GET', body?: unknown) =>
+  leaveReview
+    ? localLeaveApi<T>(route.replace('/auth', ''), method, body)
+    : api<T>(route, method, body);
 export function AuthProvider({ children }: PropsWithChildren) {
   return standalone ? (
     <Context.Provider
@@ -73,7 +78,7 @@ function ConnectedAuthProvider({ children }: PropsWithChildren) {
   const refresh = useCallback(async () => {
     setError('');
     try {
-      setSession(await api<Session>('/auth/session'));
+      setSession(await authApi<Session>('/auth/session'));
     } catch (error) {
       setError(errorMessage(error));
       setSession((current) => ({ ...current, user: null, permissions: [] }));
@@ -91,13 +96,13 @@ function ConnectedAuthProvider({ children }: PropsWithChildren) {
     return () => window.removeEventListener('attendiq:unauthorized', expired);
   }, [refresh]);
   const login = async (email: string, password: string) => {
-    setSession(await api<Session>('/auth/login', 'POST', { email, password }));
+    setSession(await authApi<Session>('/auth/login', 'POST', { email, password }));
   };
   const setup = async (body: { name: string; email: string; password: string; token: string }) => {
-    setSession(await api<Session>('/auth/setup', 'POST', body));
+    setSession(await authApi<Session>('/auth/setup', 'POST', body));
   };
   const logout = async () => {
-    await api('/auth/logout', 'POST');
+    await authApi('/auth/logout', 'POST');
     setSession((current) => ({ ...current, user: null, permissions: [] }));
     await refresh();
   };
