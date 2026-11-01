@@ -71,6 +71,9 @@ jobs:
           npm run test:e2e
           npm run test:standalone
 
+      - name: Local JSON leave review
+        run: npm run test:leave && npm run test:leave:e2e
+
       - name: Verify formatting
         run: npm run format:check
 
